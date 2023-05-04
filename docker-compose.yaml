@@ -1,0 +1,35 @@
+version: "3.8"
+
+x-default-app:
+  &default-app
+  build:
+    dockerfile: ./infra/Dockerfile
+    target: dev
+  volumes:
+    - .:/code
+  stdin_open: true
+  tty: true
+
+services:
+  fastapi:
+    <<: *default-app
+    ports:
+      - 8000:8000
+
+  postgres:
+    image: "postgres:15-alpine"
+    restart: on-failure
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=debug_hell
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+volumes:
+  postgres_data: {}
