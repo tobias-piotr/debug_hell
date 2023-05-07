@@ -1,0 +1,43 @@
+{
+    "configurations": [
+        {
+            "name": "Run Server",
+            "type": "python",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": [
+                "debug_hell.app:app",
+                "--reload",
+                "--host",
+                "0.0.0.0",
+                "--port",
+                "8001"
+            ],
+            "env": {
+                "DATABASE_URL": "postgresql+asyncpg://postgres:postgres@localhost:5432/debug_hell"
+            },
+            "justMyCode": false,
+        },
+        {
+            "name": "Run Docker",
+            "type": "docker",
+            "request": "launch",
+            "preLaunchTask": "docker-run: debug",
+            "python": {
+                "pathMappings": [
+                    {
+                        "remoteRoot": "/code",
+                        "localRoot": "${workspaceFolder}",
+                    }
+                ],
+            },
+        },
+        {
+            "name": "Attach",
+            "type": "python",
+            "request": "attach",
+            "processId": "${command:pickProcess}",
+            "justMyCode": false
+        },
+    ]
+}

@@ -1,0 +1,49 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "docker-build",
+            "label": "docker-build",
+            "platform": "python",
+            "dockerBuild": {
+                "dockerfile": "${workspaceFolder}/infra/Dockerfile",
+                "context": "${workspaceFolder}",
+                "target": "dev",
+                "pull": true,
+            },
+        },
+        {
+            "type": "docker-run",
+            "label": "docker-run: debug",
+            "dependsOn": [
+                "docker-build"
+            ],
+            "dockerRun": {
+                "ports": [
+                    {
+                        "containerPort": 8001,
+                        "hostPort": 8001
+                    }
+                ],
+                "volumes": [
+                    {
+                        "containerPath": "/code",
+                        "localPath": "${workspaceFolder}"
+                    }
+                ],
+                "network": "debug_hell_default"
+            },
+            "python": {
+                "args": [
+                    "debug_hell.app:app",
+                    "--reload",
+                    "--host",
+                    "0.0.0.0",
+                    "--port",
+                    "8001"
+                ],
+                "module": "uvicorn"
+            }
+        }
+    ]
+}
