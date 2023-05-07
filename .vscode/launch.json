@@ -16,7 +16,7 @@
             "env": {
                 "DATABASE_URL": "postgresql+asyncpg://postgres:postgres@localhost:5432/debug_hell"
             },
-            "justMyCode": false,
+            "justMyCode": false
         },
         {
             "name": "Run Docker",
@@ -30,7 +30,7 @@
                         "localRoot": "${workspaceFolder}",
                     }
                 ],
-            },
+            }
         },
         {
             "name": "Attach",

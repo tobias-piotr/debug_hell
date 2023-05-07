@@ -10,7 +10,7 @@
                 "context": "${workspaceFolder}",
                 "target": "dev",
                 "pull": true,
-            },
+            }
         },
         {
             "type": "docker-run",
